@@ -1,0 +1,142 @@
+# AWS Amplify Custom HTTP Security Headers Configuration
+# This file configures security headers for SlightBuild website
+
+customHeaders:
+  - pattern: '**'
+    headers:
+      # Content Security Policy - Prevents XSS and other injection attacks
+      Content-Security-Policy: >-
+        default-src 'self';
+        script-src 'self' 'unsafe-inline' https://www.google-analytics.com https://www.googletagmanager.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net;
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
+        font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
+        img-src 'self' data: https: *.googleapis.com *.gstatic.com *.unsplash.com *.cloudfront.net;
+        connect-src 'self' https://www.google-analytics.com https://stats.g.doubleclick.net;
+        frame-ancestors 'none';
+        base-uri 'self';
+        form-action 'self';
+        upgrade-insecure-requests;
+      
+      # HTTP Strict Transport Security - Forces HTTPS connections
+      Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+      
+      # X-Frame-Options - Prevents clickjacking attacks
+      X-Frame-Options: DENY
+      
+      # X-Content-Type-Options - Prevents MIME sniffing
+      X-Content-Type-Options: nosniff
+      
+      # X-XSS-Protection - Enables browser XSS protection
+      X-XSS-Protection: '1; mode=block'
+      
+      # Referrer Policy - Controls referrer information
+      Referrer-Policy: strict-origin-when-cross-origin
+      
+      # Permissions Policy - Controls browser features
+      Permissions-Policy: >-
+        accelerometer=(),
+        camera=(),
+        geolocation=(),
+        gyroscope=(),
+        magnetometer=(),
+        microphone=(),
+        payment=(),
+        usb=(),
+        autoplay=(),
+        fullscreen=(self)
+      
+      # Cross-Origin Embedder Policy
+      Cross-Origin-Embedder-Policy: require-corp
+      
+      # Cross-Origin Opener Policy  
+      Cross-Origin-Opener-Policy: same-origin
+      
+      # Cache Control for HTML files (short cache)
+      Cache-Control: public, max-age=3600, must-revalidate
+
+  # Static Assets - Long cache duration
+  - pattern: '/css/**'
+    headers:
+      Cache-Control: public, max-age=31536000, immutable
+      Content-Type: text/css
+      
+  - pattern: '/js/**'  
+    headers:
+      Cache-Control: public, max-age=31536000, immutable
+      Content-Type: application/javascript
+      
+  - pattern: '/assets/images/**'
+    headers:
+      Cache-Control: public, max-age=31536000, immutable
+      
+  # Fonts
+  - pattern: '**/*.woff2'
+    headers:
+      Cache-Control: public, max-age=31536000, immutable
+      Content-Type: font/woff2
+      Cross-Origin-Resource-Policy: cross-origin
+      
+  - pattern: '**/*.woff'
+    headers:
+      Cache-Control: public, max-age=31536000, immutable  
+      Content-Type: font/woff
+      Cross-Origin-Resource-Policy: cross-origin
+
+  # HTML files - Short cache
+  - pattern: '**/*.html'
+    headers:
+      Cache-Control: public, max-age=3600, must-revalidate
+      Content-Type: text/html; charset=utf-8
+
+  # API endpoints (if any in the future)
+  - pattern: '/api/**'
+    headers:
+      Cache-Control: no-cache, no-store, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Headers: Content-Type, Authorization
+
+  # Manifest and service worker
+  - pattern: '/manifest.json'
+    headers:
+      Cache-Control: public, max-age=86400
+      Content-Type: application/manifest+json
+      
+  - pattern: '/sw.js'
+    headers:
+      Cache-Control: no-cache, no-store, must-revalidate
+      Content-Type: application/javascript
+
+  # Robots and sitemap
+  - pattern: '/robots.txt'
+    headers:
+      Cache-Control: public, max-age=86400
+      Content-Type: text/plain
+      
+  - pattern: '/sitemap.xml'
+    headers:
+      Cache-Control: public, max-age=86400  
+      Content-Type: application/xml
+
+# Redirect Rules
+redirects:
+  - source: /home
+    target: /
+    status: 301
+    
+  - source: /index.htm
+    target: /
+    status: 301
+    
+  # Force HTTPS
+  - source: http://slightbuild.com/<*>
+    target: https://slightbuild.com/<*>
+    status: 301
+    
+  # Redirect www to non-www (or vice versa based on preference)
+  - source: https://www.slightbuild.com/<*>
+    target: https://slightbuild.com/<*>
+    status: 301
+
+# Error Pages
+errorDocument: /404.html

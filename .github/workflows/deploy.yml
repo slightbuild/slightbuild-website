@@ -1,0 +1,208 @@
+name: Deploy SlightBuild to AWS Amplify
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+env:
+  AWS_REGION: us-east-1
+  NODE_VERSION: '18'
+
+jobs:
+  test:
+    name: Run Tests & Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install Dependencies
+        run: npm ci || npm install
+      
+      - name: HTML Validation
+        uses: Cyb3r-Jak3/html5validator-action@v7.2.0
+        with:
+          root: ./
+          css: false
+      
+      - name: Link Checker
+        uses: lycheeverse/lychee-action@v1.10.0
+        with:
+          args: --verbose --no-progress '*.html' --accept 200,429
+          fail: true
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      
+      - name: File Size Check
+        run: |
+          echo "Checking file sizes for performance..."
+          find . -name "*.css" -exec ls -lah {} \; | awk '{if($5+0 > 100) print "Warning: " $9 " is " $5}'
+          find . -name "*.js" -exec ls -lah {} \; | awk '{if($5+0 > 200) print "Warning: " $9 " is " $5}'
+          find . -name "*.html" -exec ls -lah {} \; | awk '{if($5+0 > 50) print "Warning: " $9 " is " $5}'
+
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: Run Snyk Security Test
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+      
+      - name: Check for Secrets
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: main
+          head: HEAD
+
+  build-preview:
+    name: Build Preview (PR Only)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    needs: [test, security]
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      
+      - name: Deploy to Amplify (Preview)
+        run: |
+          echo "Triggering preview deployment for PR #${{ github.event.number }}"
+          aws amplify start-job \
+            --app-id ${{ secrets.AMPLIFY_APP_ID }} \
+            --branch-name pr-${{ github.event.number }} \
+            --job-type RELEASE || echo "Preview branch not configured"
+
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    needs: [test, security]
+    environment:
+      name: production
+      url: https://${{ secrets.PRODUCTION_DOMAIN }}
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      
+      - name: Deploy to Amplify (Production)
+        run: |
+          echo "Starting production deployment..."
+          DEPLOYMENT_ID=$(aws amplify start-job \
+            --app-id ${{ secrets.AMPLIFY_APP_ID }} \
+            --branch-name main \
+            --job-type RELEASE \
+            --query 'jobSummary.jobId' \
+            --output text)
+          
+          echo "Deployment ID: $DEPLOYMENT_ID"
+          echo "DEPLOYMENT_ID=$DEPLOYMENT_ID" >> $GITHUB_ENV
+      
+      - name: Wait for Deployment
+        run: |
+          echo "Waiting for deployment to complete..."
+          while true; do
+            STATUS=$(aws amplify get-job \
+              --app-id ${{ secrets.AMPLIFY_APP_ID }} \
+              --branch-name main \
+              --job-id ${{ env.DEPLOYMENT_ID }} \
+              --query 'job.summary.status' \
+              --output text)
+            
+            echo "Deployment status: $STATUS"
+            
+            if [ "$STATUS" = "SUCCEED" ]; then
+              echo "✅ Deployment completed successfully!"
+              break
+            elif [ "$STATUS" = "FAILED" ] || [ "$STATUS" = "CANCELLED" ]; then
+              echo "❌ Deployment failed with status: $STATUS"
+              exit 1
+            fi
+            
+            sleep 30
+          done
+      
+      - name: Get Deployment URL
+        run: |
+          DOMAIN_NAME=$(aws amplify get-app \
+            --app-id ${{ secrets.AMPLIFY_APP_ID }} \
+            --query 'app.defaultDomain' \
+            --output text)
+          
+          echo "🚀 Deployment successful!"
+          echo "🌐 Production URL: https://$DOMAIN_NAME"
+          echo "📊 Amplify Console: https://console.aws.amazon.com/amplify/home?region=${{ env.AWS_REGION }}#/${{ secrets.AMPLIFY_APP_ID }}"
+
+  lighthouse:
+    name: Lighthouse Performance Audit
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    needs: [deploy-production]
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          urls: |
+            https://${{ secrets.PRODUCTION_DOMAIN }}
+            https://${{ secrets.PRODUCTION_DOMAIN }}/about.html
+            https://${{ secrets.PRODUCTION_DOMAIN }}/services.html
+            https://${{ secrets.PRODUCTION_DOMAIN }}/contact.html
+          configPath: '.lighthouserc.json'
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+  notify:
+    name: Deployment Notification
+    runs-on: ubuntu-latest
+    if: always()
+    needs: [deploy-production, lighthouse]
+    
+    steps:
+      - name: Notify Success
+        if: needs.deploy-production.result == 'success'
+        run: |
+          echo "🎉 SlightBuild successfully deployed to production!"
+          echo "Visit: https://${{ secrets.PRODUCTION_DOMAIN }}"
+      
+      - name: Notify Failure
+        if: needs.deploy-production.result == 'failure'
+        run: |
+          echo "❌ Deployment failed. Check the logs for details."
+          exit 1

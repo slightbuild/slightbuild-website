@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - SlightBuild</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="slightbuild-logo animate-in">
+                    SlightBuild
+                    <span class="drip drip-1"></span>
+                    <span class="drip drip-2"></span>
+                    <span class="drip drip-3"></span>
+                    <span class="texture"></span>
+                </span>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="contact.html" class="nav-link active">Contact</a>
+            </div>
+            <div class="nav-toggle" id="navToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="page-header-bg">
+            <div class="grid-overlay"></div>
+        </div>
+        <div class="container">
+            <h1 class="page-title">
+                <span class="text-gradient">Get In Touch</span>
+            </h1>
+            <p class="page-subtitle">Let's discuss how we can help transform your ideas into reality</p>
+        </div>
+    </section>
+
+    <section class="contact-main">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-form-section">
+                    <h2>Send Us a Message</h2>
+                    <p>Fill out the form below and we'll get back to you within 24 hours</p>
+                    <form id="contactForm" class="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name*</label>
+                                <input type="text" id="firstName" name="firstName" required>
+                                <i class="fas fa-user form-icon"></i>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name*</label>
+                                <input type="text" id="lastName" name="lastName" required>
+                                <i class="fas fa-user form-icon"></i>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email Address*</label>
+                                <input type="email" id="email" name="email" required>
+                                <i class="fas fa-envelope form-icon"></i>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone">
+                                <i class="fas fa-phone form-icon"></i>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="company">Company Name</label>
+                            <input type="text" id="company" name="company">
+                            <i class="fas fa-building form-icon"></i>
+                        </div>
+                        <div class="form-group">
+                            <label for="projectType">Project Type*</label>
+                            <select id="projectType" name="projectType" required>
+                                <option value="">Select a project type</option>
+                                <option value="website">Website Development</option>
+                                <option value="webapp">Web Application</option>
+                                <option value="mobile">Mobile Application</option>
+                                <option value="consultation">Technical Consultation</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <i class="fas fa-briefcase form-icon"></i>
+                        </div>
+                        <div class="form-group">
+                            <label for="budget">Estimated Budget</label>
+                            <select id="budget" name="budget">
+                                <option value="">Select budget range</option>
+                                <option value="<5k">Less than $5,000</option>
+                                <option value="5k-10k">$5,000 - $10,000</option>
+                                <option value="10k-25k">$10,000 - $25,000</option>
+                                <option value="25k-50k">$25,000 - $50,000</option>
+                                <option value=">50k">More than $50,000</option>
+                            </select>
+                            <i class="fas fa-dollar-sign form-icon"></i>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Project Details*</label>
+                            <textarea id="message" name="message" rows="5" placeholder="Tell us about your project..." required></textarea>
+                            <i class="fas fa-comment form-icon"></i>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-large">
+                            <span>Send Message</span>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                        <div id="formMessage" class="form-message"></div>
+                    </form>
+                </div>
+
+                <div class="contact-info-section">
+                    <h2>Get In Touch</h2>
+                    <p>Ready to start your project? We'd love to hear from you</p>
+                    <div class="contact-info-card">
+                        <h3>Let's Start a Conversation</h3>
+                        <p>We're here to help bring your digital vision to life. Reach out to us through any of the channels below.</p>
+                        
+                        <div class="contact-methods">
+                            <div class="contact-method">
+                                <i class="fas fa-envelope"></i>
+                                <div>
+                                    <h4>Email Us</h4>
+                                    <a href="mailto:hello@slightbuild.com">info@slightbuild.com</a>
+                                </div>
+                            </div>
+                            <div class="contact-method">
+                                <i class="fas fa-phone"></i>
+                                <div>
+                                    <h4>Call Us</h4>
+                                    <a href="tel:+15551234567">713-340-4443</a>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="social-connect">
+                            <h4>Connect With Us</h4>
+                            <div class="social-links-large">
+                                <a href="#" aria-label="LinkedIn">
+                                    <i class="fab fa-linkedin"></i>
+                                </a>
+                                <a href="#" aria-label="Twitter">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" aria-label="GitHub">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="#" aria-label="Dribbble">
+                                    <i class="fab fa-dribbble"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section class="cta-minimal">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Get Started?</h2>
+                <p>Don't hesitate to reach out. We're excited to hear about your project!</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="slightbuild-logo">
+                        SlightBuild
+                        <span class="texture"></span>
+                    </span>
+                    <p>Building the future, one line of code at a time</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Quick Links</h4>
+                        <a href="index.html">Home</a>
+                        <a href="about.html">About</a>
+                        <a href="services.html">Services</a>
+                        <a href="contact.html">Contact</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Services</h4>
+                        <a href="services.html#web-dev">Web Development</a>
+                        <a href="services.html#web-apps">Web Applications</a>
+                        <a href="services.html#mobile">Mobile Apps</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Connect</h4>
+                        <div class="social-links">
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                            <a href="#" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 SlightBuild. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

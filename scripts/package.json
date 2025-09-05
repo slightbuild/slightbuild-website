@@ -1,0 +1,29 @@
+{
+  "name": "slightbuild-monitoring-scripts",
+  "version": "1.0.0",
+  "description": "Cost monitoring and optimization scripts for SlightBuild AWS deployment",
+  "private": true,
+  "scripts": {
+    "cost-report": "node cost-monitor.js --report",
+    "cost-alert": "node cost-monitor.js --alert",
+    "cost-optimize": "node cost-monitor.js --optimize",
+    "cost-all": "node cost-monitor.js",
+    "setup": "npm install",
+    "help": "echo 'Available commands:\n  npm run cost-report   - Generate cost report\n  npm run cost-alert    - Check budget alerts\n  npm run cost-optimize - Get optimization tips\n  npm run cost-all      - Run all monitoring tasks'"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1490.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "keywords": [
+    "aws",
+    "cost-monitoring",
+    "amplify",
+    "cloudwatch",
+    "budgets"
+  ],
+  "author": "SlightBuild",
+  "license": "MIT"
+}

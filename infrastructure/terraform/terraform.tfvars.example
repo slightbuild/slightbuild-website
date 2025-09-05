@@ -1,0 +1,57 @@
+# SlightBuild Infrastructure Configuration Template
+# Copy this file to terraform.tfvars and fill in your actual values
+
+# Basic Configuration
+app_name    = "slightbuild"
+environment = "production"
+aws_region  = "us-east-1"
+
+# GitHub Repository Configuration
+github_repository = "https://github.com/yourusername/slightbuild-website"
+github_token      = "ghp_your_github_personal_access_token_here"
+
+# Domain Configuration (optional - leave empty to skip)
+domain_name = "slightbuild.com"  # Change to your domain or leave as ""
+
+# Branch Configuration
+enable_staging_branch = true  # Set to false if you don't want a staging branch
+
+# Infrastructure Management
+create_state_bucket = true  # Set to true for production use
+
+# Monitoring and Alerts
+enable_monitoring    = true
+cost_budget_limit   = 10.0  # Monthly budget in USD
+notification_email  = "admin@slightbuild.com"  # Email for alerts
+
+# Performance Settings
+enable_performance_mode       = true
+enable_pull_request_previews = true
+
+# Security Configuration
+allowed_origins = [
+  "https://slightbuild.com",
+  "https://www.slightbuild.com"
+]
+
+# Feature Flags
+feature_flags = {
+  enable_analytics              = true
+  enable_error_tracking         = true
+  enable_performance_monitoring = true
+  enable_live_chat             = false
+  enable_newsletter            = true
+  enable_dark_mode             = false
+  enable_blog                  = false
+}
+
+# Build Configuration
+build_timeout = 10      # Build timeout in minutes
+node_version  = "18"    # Node.js version
+
+# Additional Tags (optional)
+additional_tags = {
+  Owner       = "SlightBuild Team"
+  CostCenter  = "Marketing"
+  Purpose     = "Company Website"
+}

@@ -1,0 +1,357 @@
+/* SlightBuild Custom Logo Styles - Graffiti/Brush Style */
+
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Kalam:wght@700&display=swap');
+
+/* Main Logo Class */
+.slightbuild-logo {
+    position: relative;
+    display: inline-block;
+    font-family: 'Permanent Marker', cursive;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transform: skewY(-3deg) skewX(-5deg);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Navigation Logo */
+.nav-brand .slightbuild-logo {
+    font-size: 1.8rem;
+    background: linear-gradient(135deg, #e0e0e0 0%, #b8b8b8 50%, #808080 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 
+        2px 2px 4px rgba(0,0,0,0.5),
+        -1px -1px 2px rgba(255,255,255,0.1);
+    position: relative;
+}
+
+/* Hero Logo - Larger Version */
+.hero-logo {
+    font-size: 7.6rem;
+    margin-bottom: 2rem;
+    display: inline-block;
+    position: relative;
+}
+
+.hero-logo .slightbuild-logo {
+    font-size: inherit;
+    background: linear-gradient(135deg, 
+        #ffffff 0%, 
+        #e0e0e0 25%, 
+        #b8b8b8 50%, 
+        #808080 75%, 
+        #606060 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(3px 3px 6px rgba(0,0,0,0.7));
+}
+
+/* Paint Drip Effect */
+.slightbuild-logo::before,
+.slightbuild-logo::after {
+    content: '';
+    position: absolute;
+    background: linear-gradient(180deg, #b8b8b8 0%, transparent 100%);
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.slightbuild-logo::before {
+    width: 3px;
+    height: 15px;
+    bottom: -12px;
+    left: 15%;
+    transform: rotate(5deg);
+    border-radius: 0 0 50% 50%;
+    animation: drip1 3s ease-in-out infinite;
+}
+
+.slightbuild-logo::after {
+    width: 2px;
+    height: 20px;
+    bottom: -15px;
+    right: 25%;
+    transform: rotate(-3deg);
+    border-radius: 0 0 50% 50%;
+    animation: drip2 4s ease-in-out infinite;
+}
+
+/* Additional Drips */
+.slightbuild-logo .drip {
+    position: absolute;
+    background: linear-gradient(180deg, #999 0%, transparent 100%);
+    opacity: 0.5;
+    pointer-events: none;
+    border-radius: 0 0 50% 50%;
+}
+
+.drip-1 {
+    width: 2px;
+    height: 12px;
+    bottom: -10px;
+    left: 40%;
+    animation: drip3 3.5s ease-in-out infinite;
+}
+
+.drip-2 {
+    width: 3px;
+    height: 18px;
+    bottom: -14px;
+    left: 70%;
+    animation: drip4 4.5s ease-in-out infinite;
+}
+
+.drip-3 {
+    width: 2px;
+    height: 10px;
+    bottom: -8px;
+    right: 15%;
+    animation: drip5 3s ease-in-out infinite;
+}
+
+/* Rough Edge Effect */
+.slightbuild-logo .rough-edge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+.slightbuild-logo .rough-edge::before {
+    content: 'SLIGHTBUILD';
+    position: absolute;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    color: transparent;
+    -webkit-text-stroke: 0.5px rgba(255,255,255,0.1);
+    text-stroke: 0.5px rgba(255,255,255,0.1);
+    z-index: -1;
+    transform: translate(1px, 1px);
+}
+
+/* Glitch Effect on Hover */
+.slightbuild-logo:hover {
+    animation: glitch 0.3s ease-in-out;
+}
+
+@keyframes glitch {
+    0%, 100% {
+        text-shadow: 
+            2px 2px 4px rgba(0,0,0,0.5),
+            -1px -1px 2px rgba(255,255,255,0.1);
+    }
+    20% {
+        text-shadow: 
+            -2px 2px 4px rgba(0,255,204,0.5),
+            1px -1px 2px rgba(123,47,247,0.3);
+    }
+    40% {
+        text-shadow: 
+            2px -2px 4px rgba(123,47,247,0.5),
+            -1px 1px 2px rgba(0,255,204,0.3);
+    }
+    60% {
+        text-shadow: 
+            -2px -2px 4px rgba(255,255,255,0.3),
+            1px 1px 2px rgba(0,0,0,0.7);
+    }
+    80% {
+        text-shadow: 
+            2px 2px 4px rgba(0,0,0,0.5),
+            -1px -1px 2px rgba(255,255,255,0.1);
+    }
+}
+
+/* Drip Animations */
+@keyframes drip1 {
+    0%, 100% {
+        transform: translateY(0) rotate(5deg) scaleY(1);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translateY(3px) rotate(5deg) scaleY(1.2);
+        opacity: 0.4;
+    }
+}
+
+@keyframes drip2 {
+    0%, 100% {
+        transform: translateY(0) rotate(-3deg) scaleY(1);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translateY(2px) rotate(-3deg) scaleY(1.15);
+        opacity: 0.45;
+    }
+}
+
+@keyframes drip3 {
+    0%, 100% {
+        transform: translateY(0) scaleY(1);
+        opacity: 0.5;
+    }
+    50% {
+        transform: translateY(2px) scaleY(1.1);
+        opacity: 0.35;
+    }
+}
+
+@keyframes drip4 {
+    0%, 100% {
+        transform: translateY(0) scaleY(1);
+        opacity: 0.5;
+    }
+    50% {
+        transform: translateY(4px) scaleY(1.25);
+        opacity: 0.3;
+    }
+}
+
+@keyframes drip5 {
+    0%, 100% {
+        transform: translateY(0) scaleY(1);
+        opacity: 0.5;
+    }
+    50% {
+        transform: translateY(1px) scaleY(1.05);
+        opacity: 0.4;
+    }
+}
+
+/* Spray Paint Texture Overlay */
+.slightbuild-logo .texture {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.3;
+    pointer-events: none;
+    background-image: 
+        repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 2px,
+            rgba(255,255,255,0.03) 2px,
+            rgba(255,255,255,0.03) 4px
+        );
+    mix-blend-mode: overlay;
+}
+
+/* Alternative Brush Style */
+.slightbuild-logo.brush-style {
+    font-family: 'Kalam', cursive;
+    font-weight: 700;
+    transform: skewY(-5deg) skewX(-8deg) rotate(-2deg);
+}
+
+/* Footer Logo Variant */
+.footer-brand .slightbuild-logo {
+    font-size: 1.5rem;
+    opacity: 0.9;
+    background: linear-gradient(135deg, #b8b8b8 0%, #606060 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .nav-brand .slightbuild-logo {
+        font-size: 1.5rem;
+    }
+    
+    .hero-logo {
+        font-size: 2.5rem;
+    }
+    
+    .slightbuild-logo::before,
+    .slightbuild-logo::after {
+        display: none;
+    }
+    
+    .drip-1, .drip-2, .drip-3 {
+        display: none;
+    }
+}
+
+/* Loading Animation for Logo */
+@keyframes logoReveal {
+    0% {
+        opacity: 0;
+        transform: skewY(-3deg) skewX(-5deg) scale(0.8);
+        filter: blur(10px);
+    }
+    50% {
+        opacity: 0.5;
+        transform: skewY(-3deg) skewX(-5deg) scale(1.05);
+        filter: blur(5px);
+    }
+    100% {
+        opacity: 1;
+        transform: skewY(-3deg) skewX(-5deg) scale(1);
+        filter: blur(0);
+    }
+}
+
+.slightbuild-logo.animate-in {
+    animation: logoReveal 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Distressed/Worn Effect */
+.slightbuild-logo.distressed {
+    position: relative;
+}
+
+.slightbuild-logo.distressed::after {
+    content: 'SLIGHTBUILD';
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    background: inherit;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    clip-path: polygon(
+        0% 0%, 15% 0%, 15% 20%, 30% 20%, 30% 0%, 
+        45% 0%, 45% 15%, 60% 15%, 60% 0%, 75% 0%, 
+        75% 25%, 90% 25%, 90% 0%, 100% 0%, 100% 100%, 
+        90% 100%, 90% 75%, 75% 75%, 75% 100%, 
+        60% 100%, 60% 85%, 45% 85%, 45% 100%, 
+        30% 100%, 30% 80%, 15% 80%, 15% 100%, 0% 100%
+    );
+    opacity: 0.9;
+}
+
+/* Neon Glow Variant */
+.slightbuild-logo.neon {
+    animation: neonPulse 2s ease-in-out infinite;
+}
+
+@keyframes neonPulse {
+    0%, 100% {
+        filter: 
+            drop-shadow(0 0 5px rgba(0,255,204,0.5))
+            drop-shadow(0 0 10px rgba(0,255,204,0.3))
+            drop-shadow(0 0 15px rgba(0,255,204,0.1));
+    }
+    50% {
+        filter: 
+            drop-shadow(0 0 10px rgba(0,255,204,0.7))
+            drop-shadow(0 0 20px rgba(0,255,204,0.5))
+            drop-shadow(0 0 30px rgba(0,255,204,0.3));
+    }
+}

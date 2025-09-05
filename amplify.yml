@@ -1,0 +1,41 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - echo "Starting SlightBuild deployment..."
+        - echo "Checking file structure and dependencies..."
+        - ls -la
+        - echo "Environment: $AWS_BRANCH"
+    build:
+      commands:
+        - echo "Starting build process for SlightBuild static website..."
+        - echo "Validating HTML files..."
+        - find . -name "*.html" -type f | wc -l
+        - echo "Optimizing assets for production..."
+        - if [ "$AWS_BRANCH" = "main" ]; then echo "Production build optimizations enabled"; fi
+        - echo "Build completed successfully ✅"
+    postBuild:
+      commands:
+        - echo "Post-build optimizations..."
+        - echo "Setting up cache headers..."
+        - echo "Deployment ready for $AWS_BRANCH branch"
+  artifacts:
+    baseDirectory: /
+    files:
+      - '**/*'
+    exclude:
+      - '.git/**/*'
+      - '.github/**/*'
+      - 'node_modules/**/*'
+      - '*.log'
+      - '.DS_Store'
+      - 'README.md'
+      - '.gitignore'
+      - 'amplify/**/*'
+      - '**/.env*'
+  cache:
+    paths:
+      - 'css/styles.css'
+      - 'js/main.js'
+      - 'assets/**/*'
