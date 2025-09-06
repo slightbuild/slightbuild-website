@@ -3,7 +3,7 @@ frontend:
   phases:
     build:
       commands:
-        - echo "Building SlightBuild static website"
+        - echo "No build required for static site"
   artifacts:
     baseDirectory: .
     files:
