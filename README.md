@@ -1,5 +1,7 @@
 # SlightBuild - Modern Developer Portfolio Website
 
+🚀 **Live Website**: Deploying to AWS Amplify...
+
 A sleek, modern static website built for SlightBuild, a personal developer site offering web development, web application, and mobile app development services to businesses. Features a dark tech theme with vibrant accent colors and smooth animations.
 
 ## 🚀 Project Overview
